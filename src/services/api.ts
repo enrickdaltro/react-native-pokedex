@@ -9,8 +9,13 @@ export const fetchPokemons = async (): Promise<any> => {
   return pokemons;
 };
 
-export const fetchMorePokemons = async (url: string): Promise<any> => {
-  const pokemons = await api.get(url);
+export const fetchMorePokemons = async (offset: number, limit: number): Promise<any> => {
+  const pokemons = await api.get('/pokemon', {
+    params: {
+      offset,
+      limit,
+    },
+  });
   return pokemons;
 };
 

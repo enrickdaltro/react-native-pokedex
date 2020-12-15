@@ -1,3 +1,4 @@
+import { RootState } from './index';
 import { RematchDispatch } from '@rematch/core';
 import { IPokemon } from '../@types/pokemons';
 import { replacedString } from '../helpers/pokemons';
@@ -7,7 +8,8 @@ interface IPokemonsState {
   loading: boolean;
   fetching: boolean;
   pokemons: IPokemon[];
-  nextPage: string;
+  offset: number;
+  limit: number;
 }
 
 const pokemons = {
@@ -15,7 +17,8 @@ const pokemons = {
     loading: false,
     fetching: false,
     pokemons: [],
-    nextPage: '',
+    offset: 0,
+    limit: 20,
   } as IPokemonsState,
 
   reducers: {
@@ -35,10 +38,10 @@ const pokemons = {
       return { ...state, pokemons: payload, loading: false };
     },
     storeMorePokemons: (state: IPokemonsState, payload: IPokemon[]) => {
-      return { ...state, pokemons: [...state.pokemons, payload], fetching: false };
+      return { ...state, pokemons: [...state.pokemons, ...payload], fetching: false };
     },
-    setNextPage: (state: IPokemonsState, payload: string) => {
-      return { ...state, nextPage: payload };
+    setNextOffset: (state: IPokemonsState) => {
+      return { ...state, offset: state.offset + 20 };
     },
   },
 
@@ -49,19 +52,20 @@ const pokemons = {
       try {
         const response = await fetchPokemons();
         dispatch.pokemons.storePokemons(response.data.results);
-        dispatch.pokemons.setNextPage(replacedString(response.data.next));
+        dispatch.pokemons.setNextOffset();
       } catch (error) {
         console.error(error);
       }
     },
 
-    async loadMorePokemons(url: string) {
+    async loadMorePokemons(_, state: RootState) {
+      const { offset, limit } = state.pokemons;
       dispatch.pokemons.setFetchingTrue();
 
       try {
-        const response = await fetchMorePokemons(url);
-        dispatch.pokemons.storePokemons(response.data.results);
-        dispatch.pokemons.setNextPage(replacedString(response.data.next));
+        const response = await fetchMorePokemons(offset, limit);
+        dispatch.pokemons.storeMorePokemons(response.data.results);
+        dispatch.pokemons.setNextOffset();
       } catch (error) {
         console.error(error);
       }
