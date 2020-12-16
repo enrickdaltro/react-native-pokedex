@@ -1,9 +1,11 @@
 import { init, RematchDispatch, RematchRootState } from '@rematch/core';
 
 import pokemons from './pokemons';
+import details from './details';
 
 const models = {
   pokemons,
+  details,
 };
 
 const store = init({
