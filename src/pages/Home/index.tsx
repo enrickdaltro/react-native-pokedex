@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     color: colors.textGrey,
   } as TextStyle,
   listContainerStyle: {
-    paddingBottom: 80,
+    paddingBottom: 120,
     paddingVertical: 20,
   },
   loader: { marginTop: 20 },

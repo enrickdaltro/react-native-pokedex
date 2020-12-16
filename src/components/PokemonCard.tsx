@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View, Text, TouchableOpacity, Image, StyleSheet, TextStyle } from 'react-native';
 import { IPokemon } from '../@types/pokemons';
@@ -12,8 +13,9 @@ interface IPokemonPropsCard {
 const CARD_HEIGHT = 100;
 
 const PokemonCard: React.FC<IPokemonPropsCard> = ({ item }) => {
+  const navigation = useNavigation();
   return (
-    <TouchableOpacity style={styles.card}>
+    <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('Pokemon', { item })}>
       <Text style={styles.name}>{capitalize(item.name)}</Text>
 
       <View>
@@ -63,4 +65,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PokemonCard;
+export default React.memo(PokemonCard);
