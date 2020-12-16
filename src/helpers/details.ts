@@ -59,7 +59,7 @@ export const getMatchingBg = (type: string): string => {
     case 'psychic':
       return colors.typePsychic;
     default:
-      return 'OK';
+      return colors.grey;
   }
 };
 

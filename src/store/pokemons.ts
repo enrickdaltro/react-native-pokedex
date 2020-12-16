@@ -3,6 +3,7 @@ import { RematchDispatch } from '@rematch/core';
 import { IPokemon } from '../@types/pokemons';
 import { replacedString } from '../helpers/pokemons';
 import { fetchMorePokemons, fetchPokemons } from '../services/api';
+import { Alert } from 'react-native';
 
 interface IPokemonsState {
   loading: boolean;
@@ -54,7 +55,8 @@ const pokemons = {
         dispatch.pokemons.storePokemons(response.data.results);
         dispatch.pokemons.setNextOffset();
       } catch (error) {
-        console.error(error);
+        dispatch.pokemons.setLoadingFalse();
+        Alert.alert('Something went wrong', "We're looking into it. Please try again later.");
       }
     },
 
@@ -67,7 +69,8 @@ const pokemons = {
         dispatch.pokemons.storeMorePokemons(response.data.results);
         dispatch.pokemons.setNextOffset();
       } catch (error) {
-        console.error(error);
+        dispatch.pokemons.setLoadingFalse();
+        Alert.alert('Something went wrong', "We're looking into it. Please try again later.");
       }
     },
   }),

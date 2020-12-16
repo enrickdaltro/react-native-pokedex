@@ -1,3 +1,4 @@
+import { Alert } from 'react-native';
 import { RootDispatch } from '.';
 import { IStats } from '../@types/details';
 import { getNormalizedStats, getNormalizedTypes } from '../helpers/details';
@@ -50,7 +51,8 @@ const details = {
         dispatch.details.setStats(normalizedStats);
         dispatch.details.setLoadingFalse();
       } catch (error) {
-        console.error(error);
+        dispatch.details.setLoadingFalse();
+        Alert.alert('Something went wrong', "We're looking into it. Please try again later.");
       }
     },
   }),

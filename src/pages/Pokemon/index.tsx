@@ -36,7 +36,7 @@ const Pokemon: React.FC<IPokemonProps> = ({ route }) => {
       <>
         <View style={styles.infoContainer}>
           <Text style={[styles.name, { color: textBaseColor }]}>{capitalize(item.name)}</Text>
-          <Text style={[styles.order, { color: textBaseColor }]}>{`#${order}`}</Text>
+          {order > 0 && <Text style={[styles.order, { color: textBaseColor }]}>{`#${order}`}</Text>}
         </View>
         <View style={styles.typesContainer}>
           <Chip types={types} baseColor={baseColor} />
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     fontSize: 34,
     fontWeight: '600',
     letterSpacing: 0.4,
-    color: colors.white,
+    color: colors.Black80,
     alignSelf: 'flex-start',
     marginStart: 20,
   } as TextStyle,
