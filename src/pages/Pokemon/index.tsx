@@ -1,17 +1,17 @@
 import { RouteProp } from '@react-navigation/native';
-import React, { useEffect } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, TextStyle, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { IPokemon } from '../../@types/pokemons';
 import colors from '../../assets/colors';
 import images from '../../assets/images';
 import Header from '../../components/Header';
-import Loader from '../../components/Loader';
-import StatsColumn from '../../components/StatsColumn';
-import { getMatchingBg, getTextBaseColor } from '../../helpers/pokemon';
+import StatsColumn from './components/StatsColumn';
+import { getMatchingBg, getTextBaseColor } from '../../helpers/details';
 import { capitalize, getPokemonImage } from '../../helpers/pokemons';
 import { RootDispatch, RootState } from '../../store';
 import { HEIGHT, WIDTH, iPhoneXLike } from '../../utils/dimensions';
+import Chip from './components/Chip';
 
 interface IPokemonProps {
   route: RouteProp<{ params: { item: IPokemon } }, 'params'>;
@@ -30,33 +30,38 @@ const Pokemon: React.FC<IPokemonProps> = ({ route }) => {
   useEffect(() => {
     dispatch.details.loadDetails(item.name);
   }, []);
+
+  const renderTopSection = (): ReactNode => {
+    return (
+      <>
+        <View style={styles.infoContainer}>
+          <Text style={[styles.name, { color: textBaseColor }]}>{capitalize(item.name)}</Text>
+          <Text style={[styles.order, { color: textBaseColor }]}>{`#${order}`}</Text>
+        </View>
+        <View style={styles.typesContainer}>
+          <Chip types={types} baseColor={baseColor} />
+        </View>
+      </>
+    );
+  };
+
   return (
     <View style={[styles.container, hasTypes && { backgroundColor: baseColor }]}>
       <SafeAreaView style={styles.safeArea}>
+        {/* Header */}
         <Image source={images.pokeball} style={styles.pokeball} />
         <Header />
-        <View style={styles.topSection}>
-          <View style={styles.infoContainer}>
-            <Text style={[styles.name, { color: textBaseColor }]}>{capitalize(item.name)}</Text>
-            {!loading && (
-              <Text style={[styles.order, { color: textBaseColor }]}>{`#${order}`}</Text>
-            )}
-          </View>
-          <View style={styles.typesContainer}>
-            {!loading &&
-              types.length > 0 &&
-              types.map((item: string, index: number) => (
-                <View key={`${item} + ${index}`} style={styles.chip}>
-                  <Text style={[styles.chipLabel, { color: baseColor }]}>{capitalize(item)}</Text>
-                </View>
-              ))}
-          </View>
 
+        {/* Top Section */}
+        <View style={styles.topSection}>
+          {renderTopSection()}
           <Image
             source={getPokemonImage(item.url)}
             style={[styles.pokemonImage, !iPhoneXLike && styles.pokemonImageSmall]}
           />
         </View>
+
+        {/* Stats */}
         <StatsColumn stats={stats} loading={loading} baseColor={baseColor} />
       </SafeAreaView>
     </View>
@@ -126,20 +131,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginStart: 20,
   },
-  chip: {
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    backgroundColor: colors.white,
-    marginRight: 10,
-    borderRadius: 15,
-    opacity: 0.8,
-  },
-  chipLabel: {
-    fontSize: 16,
-    letterSpacing: 0.4,
-    fontWeight: '500',
-    color: colors.white,
-  } as TextStyle,
   pokeball: {
     position: 'absolute',
     top: -35,

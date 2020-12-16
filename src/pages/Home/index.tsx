@@ -5,8 +5,9 @@ import { IPokemon } from '../../@types/pokemons';
 import colors from '../../assets/colors';
 import images from '../../assets/images';
 import Loader from '../../components/Loader';
-import PokemonCard from '../../components/PokemonCard';
+import PokemonCard from './components/PokemonCard';
 import { RootDispatch, RootState } from '../../store';
+import EmptyState from '../../components/EmptyState';
 
 interface IHomeProps {}
 
@@ -24,10 +25,14 @@ const Home: React.FC<IHomeProps> = () => {
     }
   }, []);
 
+  const handleTryAgain = (): void => dispatch.pokemons.loadPokemons();
+
   const renderRow = (item: IPokemon): ReactElement => <PokemonCard item={item} />;
+
   return (
     <View style={styles.container}>
       <SafeAreaView>
+        {/* Header */}
         <View style={styles.textContainer}>
           <Image source={images.pokeball} style={styles.pokeball} />
           <Text style={styles.title}>Pokédex</Text>
@@ -35,6 +40,8 @@ const Home: React.FC<IHomeProps> = () => {
             Your favorite pokemon data right on the palm of your hand!
           </Text>
         </View>
+
+        {/* List */}
         <Loader style={styles.loader} loading={loading} />
         {!loading && (
           <FlatList
@@ -46,6 +53,13 @@ const Home: React.FC<IHomeProps> = () => {
             onEndReached={fetchMorePokemons}
             onEndReachedThreshold={0.5}
             ListFooterComponent={<Loader loading={fetching} />}
+            ListEmptyComponent={
+              <EmptyState
+                label="No Pokemons"
+                description="Sorry, we couldn't find pokemons."
+                onPress={handleTryAgain}
+              />
+            }
           />
         )}
       </SafeAreaView>
