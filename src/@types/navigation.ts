@@ -1,4 +1,6 @@
+import { IPokemon } from './pokemons';
+
 export type RootStackParamList = {
   Home: undefined;
-  Pokemon: undefined;
+  Pokemon: { item: IPokemon };
 };

@@ -1,20 +1,20 @@
 import { capitalize } from './pokemons';
 import { types } from '@babel/core';
-import { IStats, IStatsResponse, ITypesResponse } from '../@types/pokemon';
+import { IStats, IStatsResponse, ITypesResponse } from '../@types/details';
 import colors from '../assets/colors';
 
 export const getNormalizedTypes = (types: ITypesResponse[]): string[] => {
   const normalizedTypes = types.reduce((acc, item) => {
     acc.push(item.type.name);
     return acc;
-  }, []) as string[];
+  }, [] as string[]);
   return normalizedTypes;
 };
 export const getNormalizedStats = (stats: IStatsResponse[]): IStats[] => {
   const normalizedStats = stats.reduce((acc, item) => {
     acc.push({ name: item.stat.name, base_stat: item.base_stat });
     return acc;
-  }, []) as IStats[];
+  }, [] as IStats[]);
   return normalizedStats;
 };
 
@@ -56,6 +56,8 @@ export const getMatchingBg = (type: string): string => {
       return colors.typeDark;
     case 'water':
       return colors.typeWater;
+    case 'psychic':
+      return colors.typePsychic;
     default:
       return 'OK';
   }

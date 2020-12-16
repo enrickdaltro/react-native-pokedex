@@ -1,11 +1,11 @@
 import { RootDispatch } from '.';
-import { IStats } from '../@types/pokemon';
-import { getNormalizedStats, getNormalizedTypes } from '../helpers/pokemon';
+import { IStats } from '../@types/details';
+import { getNormalizedStats, getNormalizedTypes } from '../helpers/details';
 import { fetchPokemonDetails } from '../services/api';
 
 interface IDetailsState {
   loading: boolean;
-  order: number | null;
+  order: number;
   types: string[];
   stats: IStats[];
 }
@@ -13,7 +13,7 @@ interface IDetailsState {
 const details = {
   state: {
     loading: false,
-    order: null,
+    order: 0,
     types: [],
     stats: [],
   } as IDetailsState,
