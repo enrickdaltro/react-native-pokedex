@@ -4,19 +4,15 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import colors from '../../assets/colors';
 
 interface IEmptyState {
-  label: string;
+  label?: string;
   description: string;
-  onPress: () => void;
 }
 
-const EmptyState: React.FC<IEmptyState> = ({ label, description, onPress }) => {
+const EmptyState: React.FC<IEmptyState> = ({ label, description }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>{label}</Text>
+      {label && <Text style={styles.label}>{label}</Text>}
       <Text style={styles.description}>{description}</Text>
-      <TouchableOpacity style={styles.button} onPress={onPress}>
-        <Text style={styles.buttonLabel}>Try again</Text>
-      </TouchableOpacity>
     </View>
   );
 };
@@ -35,6 +31,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.darkGrey,
     marginBottom: 10,
+    textAlign: 'center',
   } as TextStyle,
   button: {
     width: 150,

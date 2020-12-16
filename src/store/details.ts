@@ -8,7 +8,7 @@ interface IDetailsState {
   loading: boolean;
   order: number;
   types: string[];
-  stats: IStats[];
+  stats: IStats[] | null;
 }
 
 const details = {
@@ -16,7 +16,7 @@ const details = {
     loading: false,
     order: 0,
     types: [],
-    stats: [],
+    stats: null,
   } as IDetailsState,
 
   reducers: {

@@ -18,11 +18,10 @@ interface IPokemonProps {
 }
 
 const Pokemon: React.FC<IPokemonProps> = ({ route }) => {
-  const { item } = route.params;
-
   const { loading, order, types, stats } = useSelector((state: RootState) => state.details);
   const dispatch = useDispatch<RootDispatch>();
 
+  const { item } = route.params;
   const hasTypes = types && types.length > 0;
   const baseColor = getMatchingBg(types[0]);
   const textBaseColor = getTextBaseColor(baseColor);
@@ -71,7 +70,6 @@ const Pokemon: React.FC<IPokemonProps> = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.grey,
   },
   safeArea: {
     justifyContent: 'center',

@@ -5,9 +5,10 @@ import { HEIGHT, WIDTH } from '../../../../utils/dimensions';
 import Loader from '../../../../components/Loader';
 import { getStatName } from '../../../../helpers/details';
 import { IStats } from '../../../../@types/details';
+import EmptyState from '../../../../components/EmptyState';
 
 interface IStatsColumn {
-  stats: IStats[];
+  stats: IStats[] | null;
   loading: boolean;
   baseColor: string;
 }
@@ -27,7 +28,10 @@ const StatsColumn: React.FC<IStatsColumn> = ({ stats, loading, baseColor }) => {
       {!loading && (
         <>
           <Text style={[styles.startLabelTitle, { color: baseColor }]}>Base Stats</Text>
-          {stats.map((item) => (
+          {stats && stats.length === 0 && (
+            <EmptyState description="Sorry, we couldn't find stats for this pokemon. Try again later" />
+          )}
+          {stats?.map((item) => (
             <View key={`${item.name} + ${item.base_stat}`} style={styles.row}>
               <Text style={styles.name}>{getStatName(item.name)}</Text>
               <Text style={styles.base}>{item.base_stat}</Text>

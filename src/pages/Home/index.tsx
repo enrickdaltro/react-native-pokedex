@@ -25,8 +25,6 @@ const Home: React.FC<IHomeProps> = () => {
     }
   }, []);
 
-  const handleTryAgain = (): void => dispatch.pokemons.loadPokemons();
-
   const renderRow = (item: IPokemon): ReactElement => <PokemonCard item={item} />;
 
   return (
@@ -56,8 +54,7 @@ const Home: React.FC<IHomeProps> = () => {
             ListEmptyComponent={
               <EmptyState
                 label="No Pokemons"
-                description="Sorry, we couldn't find pokemons."
-                onPress={handleTryAgain}
+                description="Sorry, we couldn't find pokemons. Try again later"
               />
             }
           />
