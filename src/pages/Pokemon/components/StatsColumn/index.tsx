@@ -57,7 +57,7 @@ const StatsColumn: React.FC<IStatsColumn> = ({ stats, loading, baseColor }) => {
 const styles = StyleSheet.create({
   bottomSection: {
     backgroundColor: colors.white,
-    height: HEIGHT * 0.6,
+    height: HEIGHT * 0.62,
     width: '100%',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,

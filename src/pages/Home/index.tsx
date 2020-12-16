@@ -49,7 +49,7 @@ const Home: React.FC<IHomeProps> = () => {
             renderItem={({ item }) => renderRow(item)}
             contentContainerStyle={styles.listContainerStyle}
             onEndReached={fetchMorePokemons}
-            onEndReachedThreshold={0.3}
+            onEndReachedThreshold={0.01}
             ListFooterComponent={<Loader loading={fetching} />}
             ListEmptyComponent={
               <EmptyState
